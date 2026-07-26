@@ -1,0 +1,2 @@
+Parameters,FP32_KB,INT8_KB,CompressionRatio,MemoryReductionPercent
+90649,354.09765625,88.5244140625,4,75

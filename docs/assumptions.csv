@@ -1,0 +1,19 @@
+id,parameter,value_or_range,basis,status
+AS-01,NILM result payload size,256 B,compact per-appliance state+energy message,ASSUMED
+AS-02,Radio TX active draw,60-130 mW sweep,sub-GHz FSK transceiver class at +14 dBm,ASSUMED
+AS-03,Radio RX/idle listen draw,15-30 mW sweep,same transceiver class,ASSUMED
+AS-04,AFE + metrology front-end draw,5-15 mW sweep,energy-metering AFE class,ASSUMED
+AS-05,MCU sleep floor,50-500 uW sweep,Cortex-M class deep sleep with RTC,ASSUMED
+AS-06,Compute active platform power,8-20 mW,Stage 2 evidence 4.4 duty-cycled NPU-MCU measurements,anchored
+AS-07,Energy per inference,251 uJ nominal; sweep 100-1000 uJ,Stage 2 evidence 4.4 (audio workload; NILM value unknown),anchored+ASSUMED sweep
+AS-08,Supply capacity sweep GAP-6.1,50 mW - 2 W log-spaced,Stage 4 plan,swept
+AS-09,Enclosure envelope,170 x 170 x 117 mm,Stage 2 evidence 4.1 collar-only dimensions,anchored
+AS-10,Wall material,polycarbonate k=0.20 W/mK t=3 mm,typical enclosure plastic GAP-6.2,ASSUMED
+AS-11,External film coefficient,5-15 W/m2K sweep,natural convection range GAP-6.2,ASSUMED
+AS-12,Ambient sweep,-20 C to +50 C,Stage 4 plan,plan
+AS-13,Solar gain boundary case,+15 C sol-air increment on/off,screening-grade boundary case,ASSUMED
+AS-14,Component thermal limit,85 C internal air proxy,commercial/industrial component class,ASSUMED
+AS-15,Wi-SUN PHY,2-FSK 50 kbps sub-GHz,Stage 2 evidence 4.5 mandatory mode,anchored
+AS-16,Outdoor link range envelope,100-200 m,Stage 2 evidence 4.5,anchored
+AS-17,Seq2Point input window,599 samples (sweep 299/599 optional),common seq2point convention,ASSUMED
+AS-18,On/off F1 thresholds,20 W water heater/HVAC; 1000 W EV,standard NILM practice; record actuals,ASSUMED

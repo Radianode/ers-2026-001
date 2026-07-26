@@ -1,0 +1,9 @@
+# Normalize text file line endings
+* text=auto eol=lf
+
+# Treat these as binary — no line-ending conversion, no text diffing
+*.mat binary
+*.png binary
+*.pdf binary
+*.slx binary
+*.slxc binary

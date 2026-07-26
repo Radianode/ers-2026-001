@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this repository or the ERS-2026-001 publication, please cite it as below."
+title: "ERS-2026-001: INT8 Post-Training Quantization for Seq2Point NILM on Resource-Constrained Edge Platforms"
+version: "1.0"
+date-released: 2026-07-26
+authors:
+  - family-names: "Ogunjemilua"
+    given-names: "Oluwanifemi Adelana"
+    affiliation: "Radianode Ltd"
+repository-code: "https://github.com/Radianode/ers-2026-001"
+url: "https://radianode.com/engineering-insights"
+license: MIT
+type: software

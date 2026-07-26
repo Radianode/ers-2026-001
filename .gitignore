@@ -1,0 +1,30 @@
+# Raw dataset — downloaded separately, never committed
+datasets/ukdale/ukdale.h5
+datasets/**/*.h5
+
+# Development-workspace archives and caches — not part of the curated repo
+*.zip
+**/plots.zip
+**/figs.zip
+
+# Simulink build artefacts
+slprj/
+**/slprj/
+*.slxc
+codegen/
+
+# MATLAB autosave / temp
+*.asv
+*.m~
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
