@@ -89,7 +89,7 @@ See [CITATION.cff](CITATION.cff), or cite directly:
 
 ## Authors
 
-**Lead Engineer:** Oluwanifemi Ogunjemilua
+**Lead Engineer:** Oluwanifemi Ogunjemilua ([ORCID: 0009-0003-5205-7738](https://orcid.org/0009-0003-5205-7738))
 **Developed under:** Radianode Ltd
 **Website:** [https://radianode.com](https://radianode.com)
 

@@ -7,6 +7,7 @@ authors:
   - family-names: "Ogunjemilua"
     given-names: "Oluwanifemi Adelana"
     affiliation: "Radianode Ltd"
+    orcid: "https://orcid.org/0009-0003-5205-7738"
 repository-code: "https://github.com/Radianode/ers-2026-001"
 url: "https://radianode.com/engineering-insights"
 license: MIT
