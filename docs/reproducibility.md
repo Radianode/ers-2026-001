@@ -4,7 +4,7 @@
 
 This repository provides the engineering implementation and supporting artefacts required to reproduce the engineering evidence presented in **ERS-2026-001**.
 
-The assessment was executed using the Radianode Validation Process (RVP™) and focuses on the engineering readiness of INT8 post-training quantization for a Seq2Point NILM model intended for deployment on resource-constrained Edge AI platforms.
+The assessment was executed using the Radianode Validation Process (RVP) and focuses on the engineering readiness of INT8 post-training quantization for a Seq2Point NILM model intended for deployment on resource-constrained Edge AI platforms.
 
 ## Repository Components
 

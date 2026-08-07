@@ -1,4 +1,4 @@
-# ERS Stage 5 â€” Simulation Execution Guide
+# ERS Stage 5 — Simulation Execution Guide
 ## Meter Collar Edge AI Platform for Residential NILM
 
 **Document type:** Stage 5 execution support (engineer-owned stage)
@@ -80,7 +80,7 @@ Copy `runlogs/runlog_template.csv` (provided alongside this guide) once per run.
 
 ---
 
-## 2. EQ1 â€” Minimum sampling requirement (MATLAB)
+## 2. EQ1 — Minimum sampling requirement (MATLAB)
 
 **Question:** What minimum sampling rate must S2 provide for acceptable EV/HVAC/water-heater disaggregation?
 
@@ -120,7 +120,7 @@ Record in the run log that REDD (1 Hz mains) is the only source for the 1 Hz run
 ### 2.2 Model definition (fixed reference Seq2Point)
 
 ```matlab
-% seq2point architecture â€” keep IDENTICAL across all rates and both EQ1/EQ2
+% seq2point architecture — keep IDENTICAL across all rates and both EQ1/EQ2
 function lgraph = seq2pointNet(win)
 layers = [
     sequenceInputLayer(1,'MinLength',win,'Name','in')
@@ -148,7 +148,7 @@ Window: AS-17 (599 samples). Normalize inputs per standard practice (subtract me
 ### 2.3 Training and evaluation loop
 
 ```matlab
-% eq1_train_eval.m  â€” one (rate, appliance) cell per iteration
+% eq1_train_eval.m  — one (rate, appliance) cell per iteration
 win = 599; rng(1);                      % seed 1; repeat key cells with seed 2
 [Xtr,Ytr,Xval,Yval,Xte,Yte] = makeWindows('eq1/pairs_1_6Hz.mat', win, splitCfg);
 opts = trainingOptions('adam', MaxEpochs=30, MiniBatchSize=512, ...
@@ -171,16 +171,16 @@ Cross-dataset validation cell: train on UK-DALE house set, test on REDD equivale
 - Training curves (PNG) per cell, seeds used, channel selection notes, run logs.
 
 ---
-## 3. EQ2 â€” INT8 fit and accuracy loss (MATLAB)
+## 3. EQ2 — INT8 fit and accuracy loss (MATLAB)
 
 **Question:** Does an INT8 Seq2Point-class model fit NPU-class weight memory, and what accuracy is lost versus FP32?
 
 ### 3.1 Baseline and memory accounting
 
-Start from the trained EQ1 network at the EQ1-selected operating rate (the lowest rate whose F1 remains acceptable â€” that selection is your Stage 6 interpretation, so run EQ2 at the two best candidate rates to keep options open).
+Start from the trained EQ1 network at the EQ1-selected operating rate (the lowest rate whose F1 remains acceptable — that selection is your Stage 6 interpretation, so run EQ2 at the two best candidate rates to keep options open).
 
 ```matlab
-% eq2_memory.m â€” parameter count and INT8 weight footprint
+% eq2_memory.m — parameter count and INT8 weight footprint
 info = analyzeNetwork(net);                 % inspect layer-by-layer
 numParams = sum(arrayfun(@(l) numel(l.Value), net.Learnables.Value));
 bytes_fp32 = numParams*4; bytes_int8 = numParams*1;
@@ -199,7 +199,7 @@ prunableNet = taylorPrunableDlnetwork(dlnet);   % or use magnitude masks manuall
 ### 3.2 Quantization (PTQ, then QAT if PTQ degrades)
 
 ```matlab
-% eq2_quantize.m â€” post-training quantization
+% eq2_quantize.m — post-training quantization
 dq = dlquantizer(net, 'ExecutionEnvironment','MATLAB');
 calResults = calibrate(dq, calibrationDatastore);     % ~2000 windows from train set
 valResults = validate(dq, validationDatastore, ...
@@ -218,7 +218,7 @@ If the FP32-to-INT8 F1 drop exceeds your acceptability threshold (declare it in 
 
 ---
 
-## 4. EQ3 + EQ6 â€” Power budget and feasibility threshold (Simulink/Simscape)
+## 4. EQ3 + EQ6 — Power budget and feasibility threshold (Simulink/Simscape)
 
 **Question:** What continuous power must S1 supply across sense-infer-transmit duty cycles, and where is the feasibility threshold over the [GAP-6.1] sweep?
 
@@ -226,8 +226,8 @@ If the FP32-to-INT8 F1 drop exceeds your acceptability threshold (declare it in 
 
 Build `eq3_power.slx` with three parts:
 
-1. **Stateflow chart `DutyCycle`** â€” states: `Sleep`, `Acquire`, `Infer`, `Transmit`; outputs an integer `mode`. Transitions driven by timers: `Acquire` runs continuously in background (metrology is always-on: model as a constant adder instead of a state if simpler â€” record choice), `Infer` fires every `T_inf` seconds for duration `t_inf`, `Transmit` fires every `T_tx` seconds for duration `t_tx`.
-2. **Power map (MATLAB Function block)** â€” maps mode to platform power draw:
+1. **Stateflow chart `DutyCycle`** — states: `Sleep`, `Acquire`, `Infer`, `Transmit`; outputs an integer `mode`. Transitions driven by timers: `Acquire` runs continuously in background (metrology is always-on: model as a constant adder instead of a state if simpler — record choice), `Infer` fires every `T_inf` seconds for duration `t_inf`, `Transmit` fires every `T_tx` seconds for duration `t_tx`.
+2. **Power map (MATLAB Function block)** — maps mode to platform power draw:
 
 ```matlab
 function P = powerMap(mode, p)
@@ -239,14 +239,14 @@ switch mode
 end
 ```
 
-3. **Energy bookkeeping** â€” integrate P over the run (`Integrator` block) and also accumulate per-state energy counters. Closure check: sum of per-state energies must equal total integrated energy within 0.1%.
+3. **Energy bookkeeping** — integrate P over the run (`Integrator` block) and also accumulate per-state energy counters. Closure check: sum of per-state energies must equal total integrated energy within 0.1%.
 
 Timing parameters:
 
 ```matlab
 % t_inf: inference burst duration = N_inf_per_cycle * (E_inf / P_compute)
 %   with E_inf per AS-07. For seq2point, N_inf_per_cycle = samples per
-%   reporting interval (one forward pass per timepoint) â€” take this
+%   reporting interval (one forward pass per timepoint) — take this
 %   directly from your EQ1 selected rate and reporting cadence.
 % t_tx: airtime = (AS-01 payload*8 bits + PHY/MAC overhead [ASSUMED +40%]) / 50 kbps
 ```
@@ -268,7 +268,7 @@ for k = 1:numel(S)
 end
 writetable(results, 'eq3/feasibility_grid.csv');
 % Feasible := average power <= supply capacity AND peak handled by
-% [ASSUMED] 100 mF-class local storage â€” record the storage assumption
+% [ASSUMED] 100 mF-class local storage — record the storage assumption
 % you adopt for peak smoothing; sweep it if marginal.
 ```
 
@@ -280,11 +280,11 @@ Run three assumption variants (lo/mid/hi of AS-02..AS-07) to bracket. EQ6 is ans
 
 ---
 
-## 5. EQ4 â€” Thermal behaviour (Simscape lumped + PDE Toolbox)
+## 5. EQ4 — Thermal behaviour (Simscape lumped + PDE Toolbox)
 
 **Question:** Does dissipation keep the sealed enclosure within limits at ambient extremes with natural convection only?
 
-### 5.1 Level 1 â€” Simscape lumped network (`eq4_lumped.slx`)
+### 5.1 Level 1 — Simscape lumped network (`eq4_lumped.slx`)
 
 Network topology (Simscape > Foundation Library > Thermal):
 
@@ -310,7 +310,7 @@ M3: wall mass from t, A_wall, 1200 kg/m3, 1250 J/kgK [ASSUMED PC]
 
 Drive `P(t)` with the dissipation profile exported from the EQ3 run at the operating point under study (worst feasible cadence). Sweep T_ambient per AS-12, add AS-13 solar case as +15 C on the ambient source. Simulate to steady state (run until dT/dt < 0.01 K/min) and capture transient response to a single inference burst.
 
-### 5.2 Level 2 â€” PDE Toolbox 3D conduction (`eq4_pde.m`)
+### 5.2 Level 2 — PDE Toolbox 3D conduction (`eq4_pde.m`)
 
 ```matlab
 model = createpde('thermal','steadystate');
@@ -331,7 +331,7 @@ R = solve(model);
 % field slices for the report.
 ```
 
-Note the declared simplification: still-air conduction proxy inside (no CFD). Agreement check: Level 1 steady-state internal air temperature vs Level 2 volume-average within a tolerance you declare beforehand (suggest 5 C; record it). Disagreement beyond tolerance triggers the Elmer/OpenFOAM escalation path from Stage 4 â€” do not tune parameters post hoc to force agreement without logging it.
+Note the declared simplification: still-air conduction proxy inside (no CFD). Agreement check: Level 1 steady-state internal air temperature vs Level 2 volume-average within a tolerance you declare beforehand (suggest 5 C; record it). Disagreement beyond tolerance triggers the Elmer/OpenFOAM escalation path from Stage 4 — do not tune parameters post hoc to force agreement without logging it.
 
 ### 5.3 Deliverables to Stage 6
 
@@ -339,7 +339,7 @@ Note the declared simplification: still-air conduction proxy inside (no CFD). Ag
 
 ---
 
-## 6. EQ5 â€” Backhaul PDR and latency (ns-3)
+## 6. EQ5 — Backhaul PDR and latency (ns-3)
 
 **Question:** Can Wi-SUN-class backhaul deliver NILM result payloads at acceptable PDR/latency under realistic mesh depth?
 
@@ -403,7 +403,7 @@ int main(int argc, char** argv) {
   SixLowPanHelper six; NetDeviceContainer sixDevs = six.Install(devs);
   Ipv6AddressHelper ip; ip.SetBase("2001:db8::", Ipv6Prefix(64));
   Ipv6InterfaceContainer ifs = ip.Assign(sixDevs);
-  // Static routes hop-by-hop toward node 0 (sink) â€” Ipv6StaticRoutingHelper
+  // Static routes hop-by-hop toward node 0 (sink) — Ipv6StaticRoutingHelper
 
   // Sink app on node 0, UdpClient on node nHops: 256 B, interval Treport
   // FlowMonitor for PDR + delay
@@ -425,7 +425,7 @@ for h in 1 2 3 4 5; do for s in 1 2 3 4 5; do
 done; done
 ```
 
-Parse FlowMonitor XMLs (Python/pandas) into `eq5/results.csv`: columns hop count, seed, spacing, exponent, PDR, mean/95p delay. Sanity gate before accepting runs: single-hop PDR at 50 m spacing should be near-perfect; if not, the loss model reference is misconfigured â€” fix before sweeping.
+Parse FlowMonitor XMLs (Python/pandas) into `eq5/results.csv`: columns hop count, seed, spacing, exponent, PDR, mean/95p delay. Sanity gate before accepting runs: single-hop PDR at 50 m spacing should be near-perfect; if not, the loss model reference is misconfigured — fix before sweeping.
 
 ### 6.4 Deliverables to Stage 6
 

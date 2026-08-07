@@ -4,7 +4,7 @@
 
 ## Abstract
 
-This Engineering Readiness Assessment evaluates whether INT8 post-training quantization provides a deployment-ready optimisation for a Seq2Point Non-Intrusive Load Monitoring (NILM) model intended for resource-constrained Edge AI platforms. Using the Radianode Validation Process (RVP™), the assessment measures deployment memory, behaviour preservation, prediction accuracy and numerical stability rather than theoretical performance alone. The evidence shows a 75% reduction in deployment memory with model behaviour preserved and no observed deployment-critical instability — meeting the criteria for deployment readiness.
+This Engineering Readiness Assessment evaluates whether INT8 post-training quantization provides a deployment-ready optimisation for a Seq2Point Non-Intrusive Load Monitoring (NILM) model intended for resource-constrained Edge AI platforms. Using the Radianode Validation Process (RVP), the assessment measures deployment memory, behaviour preservation, prediction accuracy and numerical stability rather than theoretical performance alone. The evidence shows a 75% reduction in deployment memory with model behaviour preserved and no observed deployment-critical instability — meeting the criteria for deployment readiness.
 
 ## Repository Purpose
 
@@ -12,13 +12,13 @@ This is a curated engineering reproducibility repository, not a development work
 
 1. supports the engineering evidence presented in the publication,
 2. enables readers to reproduce that evidence, or
-3. documents how the assessment was executed under RVP™.
+3. documents how the assessment was executed under RVP.
 
 See [docs/reproducibility.md](docs/reproducibility.md) for the full reproduction guide.
 
-## RVP™ Statement
+## RVP Statement
 
-Every Engineering Readiness Study published by Radianode is executed using the **Radianode Validation Process (RVP™)** — Assess, Simulate, Validate, Deploy. See [docs/RVP-application.md](docs/RVP-application.md) for how each stage was applied to this assessment.
+Every Engineering Readiness Study published by Radianode is executed using the **Radianode Validation Process (RVP)** — Assess, Simulate, Validate, Decide. See [docs/RVP-application.md](docs/RVP-application.md) for how each stage was applied to this assessment.
 
 ## Engineering Objectives
 
@@ -49,7 +49,6 @@ ers-2026-001/
 ├── preprocessing/    Python scripts: extract, align and quality-check meter channel pairs
 ├── eq1/             Baseline FP32 Seq2Point model — training, evaluation, figures
 ├── eq2/             INT8 post-training quantization — quantization, validation, publication figures
-├── eq3/             Power budget assessment (Simulink/Simscape)
 └── WORKFLOW.md      End-to-end pipeline diagram
 ```
 
@@ -67,13 +66,12 @@ Full instructions: [docs/reproducibility.md](docs/reproducibility.md).
 
 ## Methodology
 
-The assessment follows the Radianode Validation Process (RVP™): a structured engineering process for reducing technical uncertainty before deployment through independent assessment, simulation-driven engineering, and evidence-based recommendations. See [docs/RVP-application.md](docs/RVP-application.md) and the execution guide at [docs/ERS_Stage5_Simulation_Execution_Guide.md](docs/ERS_Stage5_Simulation_Execution_Guide.md).
+The assessment follows the Radianode Validation Process (RVP): a structured engineering process for reducing technical uncertainty before deployment through independent assessment, simulation-driven engineering, and evidence-based recommendations. See [docs/RVP-application.md](docs/RVP-application.md) and the execution guide at [docs/ERS_Stage5_Simulation_Execution_Guide.md](docs/ERS_Stage5_Simulation_Execution_Guide.md).
 
 ## Limitations
 
 - Evaluated on UK-DALE only; results have not been validated against other NILM datasets.
 - INT8 post-training quantization was evaluated in a MATLAB simulation environment, not on physical edge hardware.
-- The power budget assessment (EQ3) models the deployment scenario; it does not measure a physical device under real operating conditions.
 
 ## Future Work
 
