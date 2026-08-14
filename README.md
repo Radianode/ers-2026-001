@@ -83,7 +83,7 @@ The assessment follows the Radianode Validation Process (RVP): a structured engi
 
 See [CITATION.cff](CITATION.cff), or cite directly:
 
-> Ogunjemilua, O. (2026). *ERS-2026-001: INT8 Post-Training Quantization for Seq2Point NILM on Resource-Constrained Edge Platforms.* Radianode Ltd.
+> Ogunjemilua, O.A. (2026). *ERS-2026-001: INT8 Post-Training Quantization for Seq2Point NILM on Resource-Constrained Edge Platforms.* Radianode Ltd.
 
 ## Authors
 
