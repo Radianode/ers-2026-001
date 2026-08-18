@@ -48,11 +48,10 @@ ers-2026-001/
 ├── datasets/        UK-DALE metadata (raw dataset downloaded separately)
 ├── preprocessing/    Python scripts: extract, align and quality-check meter channel pairs
 ├── eq1/             Baseline FP32 Seq2Point model — training, evaluation, figures
-├── eq2/             INT8 post-training quantization — quantization, validation, publication figures
-└── WORKFLOW.md      End-to-end pipeline diagram
+└── eq2/             INT8 post-training quantization — quantization, validation, publication figures
 ```
 
-See [WORKFLOW.md](WORKFLOW.md) for how these stages connect, and [docs/figure-traceability.md](docs/figure-traceability.md) for exactly which script produced each published figure.
+See [docs/figure-traceability.md](docs/figure-traceability.md) for exactly which script produced each published figure.
 
 ## Quick Reproduction Workflow
 
