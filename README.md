@@ -36,6 +36,7 @@ Evaluate whether INT8 post-training quantization preserves deployment readiness 
 |---|---|
 | Framework | MATLAB Deep Learning Toolbox |
 | Dataset | UK-DALE |
+| Target Appliance | Water Heater (Boiler) |
 | Architecture | Seq2Point |
 | Optimization | INT8 PTQ |
 | Deployment Target | Resource-Constrained Edge AI |
